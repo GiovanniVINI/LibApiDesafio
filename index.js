@@ -11,3 +11,7 @@ app.use(morgan('dev'));
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(routes)
+
+app.listen(21262, () => {
+    console.log('Express started at http://localhost:21262')
+})
