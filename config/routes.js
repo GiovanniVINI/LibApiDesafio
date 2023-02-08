@@ -3,8 +3,8 @@ const routes = express.Router();
 
 let books = [
   { id: 1, name: "The Lightning Thief", author_id: null },
-  { id: 2, name: "Clean Code"},
-  { id: 3, name: "Harry Potter and the Philosopher's Stone"}
+  { id: 2, name: "Clean", author_id: null},
+  { id: 3, name: "Harry Potter and the Philosopher's Stone", author_id: null}
 ]
 
 // Search data
@@ -31,20 +31,31 @@ routes.post('/books', (req, res) => {
 routes.put('/books/:id', (req, res) => {
   const bookId = parseInt(req.params.id)
   const book = books.find(book => book.id === bookId)
-  console.log(bookId)
 
   if (!book)
     return res.status(404).end()
 
   const updateBooks = books.map((book) => {
-    if (book.id == bookId) {
-      book = req.body.books
+    if (book.id === bookId) {
+      book = req.body.book
     }
     return book
   })
   books = updateBooks
 
   return res.status(200).json(books)
+})
+
+// Delete data
+routes.delete('/books/:id', (req, res) => {
+  const bookId = parseInt(req.params.id)
+  const book = books.find(book => book.id === bookId)
+
+  if (!book)
+  return res.status(404).end()
+
+  books = books.filter(book => book.id !== bookId)
+  return res.status(204).send()
 })
 
 module.exports = routes
