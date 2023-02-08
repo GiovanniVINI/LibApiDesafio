@@ -4,7 +4,7 @@ const routes = express.Router();
 let books = [
   { id: 1, name: "The Lightning Thief", author_id: null },
   { id: 2, name: "Clean", author_id: null},
-  { id: 3, name: "Harry Potter and the Philosopher's Stone", author_id: null}
+  { id: 3, name: "Harry Potter and the Sorcerer's Stone", author_id: null}
 ]
 
 // Search data
