@@ -3,15 +3,15 @@ const routes = express.Router();
 const { authors} = require('../config/bridge')
 
 let books = [
-  { id: 1, name: "The Lightning Thief", author_id: 1 },
-  { id: 2, name: "Clean", author_id: 2},
-  { id: 3, name: "Harry Potter and the Sorcerer's Stone", author_id: 3}
+  { id: 1, name: "The Lightning Thief" },
+  { id: 2, name: "Clean" },
+  { id: 3, name: "Harry Potter and the Sorcerer's Stone" }
 ]
 
 // Search data
 routes.get('/books', (req, res) => {
   books.map(book => {
-    book.author = authors.find(authorInMemory => authorInMemory.id === book.author_id)
+    book.author = authors.find(authorInMemory => authorInMemory.id === book.id)
       return book
 }) 
   const data = { 

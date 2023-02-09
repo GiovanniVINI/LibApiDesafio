@@ -4,15 +4,15 @@ const { books } = require('../config/routes')
 
 
 let authors = [
-  { id: 1, nameAuthor: "Rick Riordan", age: "58", writtenBooks: [ ] },
-  { id: 2, nameAuthor: "Robert Cecil Martin", age: "71", writtenBooks: [ ] },
-  { id: 3, nameAuthor: "J. K. Rowling", age: "57", writtenBooks: [ ] }
+  { id: 1, nameAuthor: "Rick Riordan", age: "58" },
+  { id: 2, nameAuthor: "Robert Cecil Martin", age: "71" },
+  { id: 3, nameAuthor: "J. K. Rowling", age: "57" }
 ]
 
 // Search data
 routesAuthors.get('/authors', (req, res) => {
   authors.map(author => {
-    author.writtenBooks = author.writtenBooks.map(book => books.find(bookInMemory => bookInMemory.id === book)).filter(Boolean)
+    author.book = books.find(bookInMemory => bookInMemory.id === author.id)
       return author
 }) 
 
