@@ -1,25 +1,24 @@
 const express = require('express');
 const routesAuthors = express.Router()
-const { books } = require('../config/routes')
-
-
-let authors = [
-  { id: 1, nameAuthor: "Rick Riordan", age: "58" },
-  { id: 2, nameAuthor: "Robert Cecil Martin", age: "71" },
-  { id: 3, nameAuthor: "J. K. Rowling", age: "57" }
-]
+let authors = require('../data/authors.js');
+let books = require('../data/books.json');
 
 // Search data
 routesAuthors.get('/authors', (req, res) => {
-  authors.map(author => {
-    author.book = books.find(bookInMemory => bookInMemory.id === author.id)
-      return author
-}) 
-
+  console.log(authors)
+  for(const author of authors) {
+    author.books = books.map(book => ({
+      id: book.id,
+      name: book.name,
+      author_id: book.author_id
+    })).filter(book => book.author_id === author.id) || []
+  }
+  console.log(authors)
+  
   const data = {
     total: authors.length,
-    info: authors 
-}
+    info: authors
+  }
 
   return res.json(data)
 })
@@ -31,8 +30,8 @@ routesAuthors.post('/authors', (req, res) => {
   if (!body)
     return res.status(201).end()
 
-    authors.push(body)
-      return res.json(body)
+  authors.push(body)
+  return res.json(body)
 })
 
 // Update data
@@ -59,15 +58,14 @@ routesAuthors.put('/authors/:id', (req, res) => {
 routesAuthors.delete('/authors/:id', (req, res) => {
   const authorId = parseInt(req.params.id)
   const author = authors.find(author => author.id === authorId)
-  
+
   if (!author)
     return res.status(404).end()
 
-    authors = authors.filter(author => author.id !== authorId)
-    return res.status(204).send()
+  authors = authors.filter(author => author.id !== authorId)
+  return res.status(204).send()
 })
 
 module.exports = {
-    routesAuthors,
-    authors,
+  routesAuthors,
 }

@@ -1,20 +1,16 @@
 const express = require('express');
 const routes = express.Router();
-const { authors} = require('../config/bridge')
-
-let books = [
-  { id: 1, name: "The Lightning Thief" },
-  { id: 2, name: "Clean" },
-  { id: 3, name: "Harry Potter and the Sorcerer's Stone" }
-]
+let books = require('../data/books.json');
+let authors = require('../data/authors');
 
 // Search data
 routes.get('/books', (req, res) => {
-  books.map(book => {
-    book.author = authors.find(authorInMemory => authorInMemory.id === book.id)
-      return book
-}) 
-  const data = { 
+  books.forEach(book => {
+    const author = authors.map(author => ({ id: author.id, name: author.nameAuthor, age: author.age})).find(authorInMemory => authorInMemory.id === book.author_id) || { }
+    Reflect.deleteProperty(author, 'id')
+    book.author = author
+  })
+  const data = {
     total: books.length,
     items: books
   }
@@ -28,8 +24,8 @@ routes.post('/books', (req, res) => {
   if (!body)
     return res.status(201).end()
 
-    books.push(body)
-      return res.json(body)
+  books.push(body)
+  return res.json(body)
 })
 
 // Update data
@@ -57,7 +53,7 @@ routes.delete('/books/:id', (req, res) => {
   const book = books.find(book => book.id === bookId)
 
   if (!book)
-  return res.status(404).end()
+    return res.status(404).end()
 
   books = books.filter(book => book.id !== bookId)
   return res.status(204).send()
@@ -65,6 +61,4 @@ routes.delete('/books/:id', (req, res) => {
 
 module.exports = {
   routes,
-  books,
 }
-
