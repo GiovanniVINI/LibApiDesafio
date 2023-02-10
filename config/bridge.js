@@ -40,7 +40,7 @@ routesAuthors.put('/authors/:id', (req, res) => {
   const author = authors.find(author => author.id === authorId)
   console.log(author)
 
-  if (!author)
+  if (!author)s.m
     return res.status(404).end()
 
   const updateAuthors = authors.map((author) => {

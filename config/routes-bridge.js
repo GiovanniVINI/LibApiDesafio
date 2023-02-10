@@ -18,6 +18,22 @@ routesBridge.post('/routes-bridge', (req, res) => {
   res.json({ message: 'Relacionamento criado com sucesso!!!'})
 })
 
+routesBridge.delete('/routes-bridge/:authorId', (req, res) => {
+  const { authorId } = req.params
+  const booksRemoved = books.map(book => {
+    if(authorId === book.author_id) {
+      book.author = null
+      book.author_id = null
+
+    }
+    return book
+  })
+
+  fs.writeFileSync(path.join(__dirname, '..', 'data', 'books.json'), JSON.stringify(booksRemoved))
+
+  res.json({ message: 'Successfuly'})
+})
+
 module.exports = {
   routesBridge
 }
